@@ -1,0 +1,6 @@
+server:
+  extraArgs:
+    - --secure=false
+    - --auth-mode=server
+  service:
+    type: ClusterIP

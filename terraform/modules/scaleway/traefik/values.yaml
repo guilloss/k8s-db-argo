@@ -1,0 +1,46 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: traefik
+#   namespace: traefik
+#   annotations:
+#     service.beta.kubernetes.io/scw-loadbalancer-size: "small"  # Taille du LoadBalancer
+#     service.beta.kubernetes.io/scw-loadbalancer-type: "external"  # LoadBalancer externe
+additionalArguments:
+  - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+  - --certificatesresolvers.letsencrypt.acme.email=oliv@oliv.info
+  - --certificatesresolvers.letsencrypt.acme.storage=/data/acme.json
+  - --certificatesresolvers.letsencrypt.acme.caServer=https://acme-v02.api.letsencrypt.org/directory
+#  - --certificatesresolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+
+entryPoints:
+  web:
+    address: ":80"
+    redirectTo: websecure
+  websecure:
+    address: ":443"
+# certificatesResolvers:
+#   letsencrypt:  
+#     acme:
+#       email: oliv@oliv.info  # Adresse email pour Let's Encrypt
+#       storage: acme.json       # Emplacement pour stocker les données ACME (persistantes via un volume)
+#       caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+#       httpChallenge:
+#         entryPoint: web   
+persistence:
+  enabled: true
+  storageClass: "sbs-default" 
+  accessMode: ReadWriteOnce 
+  size: 1Gi
+  # path: /data
+deployment:
+  initContainers:
+    - name: volume-permissions
+      image: busybox:latest
+      command: ["sh", "-c", "ls -la /; touch /data/acme.json; chmod -v 600 /data/acme.json"]
+      volumeMounts:
+      - mountPath: /data
+        name: data
+podSecurityContext:
+  fsGroup: 65532
+  fsGroupChangePolicy: "OnRootMismatch"
