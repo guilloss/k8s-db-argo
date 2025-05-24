@@ -61,23 +61,23 @@ resource "digitalocean_record" "dns_pgadmin_prof" {
   ttl    = 300
 }
 
-# resource "digitalocean_record" "dns_argocd" {
-#   depends_on = [module.k8s]
-#   domain = var.dns_domain
-#   type   = "A"
-#   name   = "argocd"
-#   value  = module.k8s.lb_ip_address
-#   ttl    = 300
-# }
+resource "digitalocean_record" "dns_argocd" {
+  depends_on = [module.k8s]
+  domain = var.dns_domain
+  type   = "A"
+  name   = "argocd"
+  value  = module.k8s.lb_ip_address
+  ttl    = 300
+}
 
-# resource "digitalocean_record" "dns_argo_workflows" {
-#   depends_on = [module.k8s]
-#   domain = var.dns_domain
-#   type   = "A"
-#   name   = "argo-workflows"
-#   value  = module.k8s.lb_ip_address
-#   ttl    = 300
-# }
+resource "digitalocean_record" "dns_argo_workflows" {
+  depends_on = [module.k8s]
+  domain = var.dns_domain
+  type   = "A"
+  name   = "argo-workflows"
+  value  = module.k8s.lb_ip_address
+  ttl    = 300
+}
 
 resource "digitalocean_record" "dns_phpldapadmin" {
   depends_on = [module.k8s]
