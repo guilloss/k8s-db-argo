@@ -1,12 +1,4 @@
 k8s_version = "latest"
-scw_project_id = var.scw_project_id
-scw_access_key = var.scw_access_key
-scw_secret_key = var.scw_secret_key
 scw_region = "pl-par"
 scw_zone = "pl-par-1"
-digitalocean_token = var.digitalocean_token
-k8s_cluster_name = var.k8s_cluster_name
-k8s_vpc_name = var.k8s_vpc_name
-k8s_pvn_name = var.k8s_pvn_name
-dns_domain = var.dns_domain
 cert_email = "oliv@oliv.info"
