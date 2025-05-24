@@ -29,3 +29,7 @@ variable "scw_zone" {
     type = string
     default = "fr-par-1"
 }
+variable "k8s_pool_size" {
+    type = string
+    default = "1"
+}
