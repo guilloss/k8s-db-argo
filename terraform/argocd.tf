@@ -12,7 +12,9 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart = "argo-cd"
   values = [
-    file("../argocd/argocd-values.yaml")
+    templatefile("../argocd/argocd-values.yaml.tpl", {
+       argocd_admin_password = random_password.argocd_admin_password
+    })
   ]
 }
 

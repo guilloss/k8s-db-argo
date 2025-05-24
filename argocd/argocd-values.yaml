@@ -1,5 +1,0 @@
-server:
-  extraArgs:
-    - --insecure
-global:
-  domain: argocd.tp.oliv.info
