@@ -50,6 +50,7 @@ variable "k8s_scw_node_type" {
 
 variable "dns_domain" {
     type = string
+    default = "tp-qualif.oliv.info"
 }
 
 variable "cert_email" {
@@ -64,4 +65,9 @@ variable "scw_region" {
 variable "scw_zone" {
     type = string
     default = "fr-par-1"
+}
+
+variable "k8s_pool_size" {
+    type = string
+    default = "1"
 }

@@ -40,7 +40,7 @@ resource "scaleway_k8s_pool" "k8s-database-pool" {
   cluster_id = scaleway_k8s_cluster.k8s-database-cluster.id
   name       = "${var.k8s_cluster_name}-pool-init"
   node_type  = var.k8s_scw_node_type
-  size       = 4
+  size       = var.k8s_pool_size
 }
 
 # Ecriture en local du kubeconfig
