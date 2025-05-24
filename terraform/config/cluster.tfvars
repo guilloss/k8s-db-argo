@@ -1,0 +1,12 @@
+k8s_version = "latest"
+scw_project_id = var.SCW_PROJECT_ID
+scw_access_key = var.SCW_ACCESS_KEY
+scw_secret_key = var.SCW_SECRET_KEY
+scw_region = "pl-par"
+scw_zone = "pl-par-1"
+digitalocean_token = var.DIGITALOCEAN_TOKEN
+k8s_cluster_name = "k8s-ensae-db"
+k8s_vpc_name = "vpc-k8s-ensae-db"
+k8s_pvn_name = "pvn-k8s-ensae-db"
+dns_domain = "tp.oliv.info"
+cert_email = "oliv@oliv.info"

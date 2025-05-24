@@ -1,0 +1,36 @@
+# Secrets à préciser:
+#  SCW_SECRET_KEY : clé pour Scaleway
+#  SCW_PROJECT_ID : identifiant du projet Scaleway
+#  SCW_ACCESS_KEY : identifiant d'accès pour Scaleway
+#  DIGITALOCEAN_TOKEN : Token DigitalOcean (DNS)
+#  PA_TOKEN : token Github Actions
+#
+on: workflow_dispatch
+name: 99-destruction du cluster K8S
+jobs:
+  k8s-init:
+    name: 99-01 - Destruction du cluster k8s avec Terraform
+    runs-on: ubuntu-latest
+    env:
+      TF_IN_AUTOMATION: true
+      TF_CLI_ARGS: "-no-color"
+      TF_VAR_pa_token: ${{ secrets.PA_TOKEN }}
+      TF_VAR_scw_access_key: ${{ secrets.SCW_ACCESS_KEY }}
+      TF_VAR_scw_secret_key: ${{ secrets.SCW_SECRET_KEY }}
+      TF_VAR_scw_project_id: ${{ secrets.SCW_PROJECT_ID }}
+      TF_VAR_digitalocean_token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    steps:
+    - name: Récupération du repository
+      uses: actions/checkout@master
+    - name: Configuration de Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.9.4
+    - name: Init Terraform
+      run:
+        terraform -chdir=terraform init -backend-config=../config/cluster-backend.tfvars \
+          -backend-config="access_key = ${{secrets.SCW_ACCESS_KEY}}" \
+          -backend-config="secret_key = ${{secrets.SCW_SECRET_KEY}}"
+    - name: Exécution du script Terraform pour supprimer le cluster K8S
+      run:
+        terraform -chdir=terraform destroy --auto-approve -var-file="../config/cluster.tfvars"

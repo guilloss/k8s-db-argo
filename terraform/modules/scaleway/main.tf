@@ -43,16 +43,6 @@ resource "scaleway_k8s_pool" "k8s-database-pool" {
   size       = 4
 }
 
-# Récupération des infos du Kubeconfig
-# resource "null_resource" "kubeconfig" {
-#   depends_on = [scaleway_k8s_pool.k8s-database-pool] 
-#   triggers = {
-#     host                   = scaleway_k8s_cluster.k8s-database-cluster.kubeconfig[0].host
-#     token                  = scaleway_k8s_cluster.k8s-database-cluster.kubeconfig[0].token
-#     cluster_ca_certificate = scaleway_k8s_cluster.k8s-database-cluster.kubeconfig[0].cluster_ca_certificate
-#   }
-# }
-
 # Ecriture en local du kubeconfig
 resource "local_file" "fic_kubeconfig" {
   depends_on = [scaleway_k8s_pool.k8s-database-pool] 
@@ -64,18 +54,6 @@ data "scaleway_lbs" "cluster_lb" {
     depends_on = [time_sleep.attente-ip,helm_release.traefik-ingress]
     tags = ["kapsule"]
 }
-
-# resource "scaleway_lb_ip" "main" {
-#   zone = var.scw_zone
-# }
-
-# resource "scaleway_lb" "my_lb" {
-#   name   = var.k8s_cluster_name
-#   zone = var.scw_zone
-#   type = "LB-S"
-#   ip_ids = [scaleway_lb_ip.main.id]
-#   tags = ["kapsule"]
-# }
 
 output "lb_ip_address" {
   depends_on = [data.scaleway_lbs.cluster_lb,time_sleep.attente-ip,helm_release.traefik-ingress]
