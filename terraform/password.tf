@@ -6,9 +6,8 @@ resource "random_password" "argocd_admin_password" {
   numeric = true
 }
 
-resource "bcrypt_hash" "argocd_admin_bcrypt_password" {
-  password = random_password.argocd_admin_password
-  cost     = 10
+locals {
+  argocd_admin_password_hash = brcypt(random_password.argocd_admin_password.result,10)
 }
 
 output "argocd_admin_password" {

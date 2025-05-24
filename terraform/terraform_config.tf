@@ -23,15 +23,9 @@ terraform {
       source = "hashicorp/random"
       version = "~> 3.0"
     }
-    bcrypt = {
-      source  = "phillbaker/bcrypt"
-      version = "~> 1.0"
-    }
   }
   backend "s3" {}
 }
-
-provider "bcrypt" {}
 
 
 provider "scaleway" {

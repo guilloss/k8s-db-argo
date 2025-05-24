@@ -13,7 +13,7 @@ resource "helm_release" "argocd" {
   chart = "argo-cd"
   values = [
     templatefile("../argocd/argocd-values.yaml.tpl", {
-       argocd_admin_password = random_password.argocd_admin_password
+       argocd_admin_password = local.argocd_admin_password_hash
     })
   ]
 }
